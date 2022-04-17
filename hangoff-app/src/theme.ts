@@ -24,7 +24,11 @@ export const getAppTheme = (
       text: {
         primary: "#ededed",
         secondary: "#ffffff",
-      }
+      },
+      action: {
+        disabled: "#ededed44",
+        disabledBackground: "#743ca544",
+      },
     },
     typography: {
       fontFamily: "Cascadia",

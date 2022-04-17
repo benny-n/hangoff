@@ -20,13 +20,21 @@ export enum HangmanState {
 const renderHangmanPart = (state: HangmanState) => {
   const hangmanPartAlt = "hangman";
   const hangmanPartStyle = {
-    height: window.innerHeight / 3,
-    width: window.innerWidth / 3,
+    height: "200px",
+    width: "650px",
   };
 
   switch (state) {
     case HangmanState.None:
-      return <></>;
+      return (
+        <div style={{ opacity: 0 }}>
+          <img
+            src="/ground.svg"
+            alt={hangmanPartAlt}
+            style={hangmanPartStyle}
+          />
+        </div>
+      );
     case HangmanState.Ground:
       return (
         <img src="/ground.svg" alt={hangmanPartAlt} style={hangmanPartStyle} />
@@ -104,6 +112,19 @@ const renderHangmanPart = (state: HangmanState) => {
   }
 };
 
+const completeHangman = [
+  HangmanState.Ground,
+  HangmanState.ScaffoldBase,
+  HangmanState.ScaffoldPole,
+  HangmanState.ScaffoldWithRope,
+  HangmanState.Head,
+  HangmanState.Body,
+  HangmanState.RightLeg,
+  HangmanState.LeftLeg,
+  HangmanState.RightArm,
+  HangmanState.LeftArm,
+];
+
 const renderHangman = (hangmen: HangmanState[]) => {
   return hangmen.length > 0 ? (
     <List>
@@ -124,22 +145,37 @@ const renderHangman = (hangmen: HangmanState[]) => {
   );
 };
 
-const Hangman: React.FC<{ state: HangmanState }> = ({ state }) => {
-  const [hangman, setHangman] = React.useState<HangmanState[]>([]);
+interface HangmanProps {
+  state: HangmanState;
+  isFaded: boolean;
+}
+
+const Hangman: React.FC<HangmanProps> = (props) => {
+  const { state, isFaded } = props;
+  const [hangman, setHangman] = React.useState<HangmanState[]>([
+    HangmanState.None,
+  ]);
   React.useEffect(() => {
     if (state !== HangmanState.None) {
       let newHangman = hangman.slice();
       newHangman.push(state);
       setHangman(newHangman);
     } else {
-      setHangman([]);
+      setHangman([HangmanState.None]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      {renderHangman(hangman)}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        opacity: isFaded ? 0.2 : 1,
+        filter: isFaded ? "blur(3px)" : "none",
+      }}
+    >
+      {isFaded ? renderHangman(completeHangman) : renderHangman(hangman)}
     </Box>
   );
 };
