@@ -9,18 +9,17 @@ export const getAppTheme = (
     palette: {
       mode,
       primary: {
-        main: "#2d7c00",
-        light: "#539af6",
+        main: "#c98bff",
+        light: "#d8adfd",
+        dark: "#743ca5",
       },
       secondary: {
-        main: "#d66563",
-        light: "#f0aeae",
-        dark: "#853f3e",
+        main: "#6378d6",
+        light: "#aeb2f0",
+        dark: "#3e3f85",
       },
       info: {
-        main: "#743ca5",
-        light: "#743ca5",
-        dark: "#743ca5",
+        main: "#ededed",
       },
     },
     typography: {
