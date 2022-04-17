@@ -21,6 +21,10 @@ export const getAppTheme = (
       info: {
         main: "#ededed",
       },
+      text: {
+        primary: "#ededed",
+        secondary: "#ffffff",
+      }
     },
     typography: {
       fontFamily: "Cascadia",
