@@ -1,6 +1,3 @@
-
 export const JoinRoomDialog = () => {
-    return (
-        <div>TODO</div>
-    )
-}
+  return <div>TODO</div>;
+};
