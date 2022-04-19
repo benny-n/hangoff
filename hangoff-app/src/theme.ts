@@ -21,6 +21,10 @@ export const getAppTheme = (
       info: {
         main: "#ededed",
       },
+      success: {
+        main: "#006618",
+        light: "#2e7d32a1",
+      },
       text: {
         primary: "#ededed",
         secondary: "#ededed2a",

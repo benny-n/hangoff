@@ -7,15 +7,13 @@ import {
   QWERTY_LAYOUT_MIDDLE,
   QWERTY_LAYOUT_UP,
 } from "../constants";
-import KeyRow from "./KeyRow";
+import KeyRow, { KeyMap } from "./KeyRow";
 
-const initKeyboard = (): any => {
-  let keyMap = {} as any;
+const initKeyboard = (): KeyMap => {
+  let keyMap = {} as KeyMap;
   for (let i = 0; i < ALPHABET.length; i++) {
     keyMap[ALPHABET[i]] = {
       key: ALPHABET[i],
-      used: false,
-      ref: undefined,
     };
   }
   return keyMap;

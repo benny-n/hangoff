@@ -14,7 +14,7 @@ const KeyRow: React.FC<KeyRowProps> = (props) => {
   const { keys, keyMap, setKeyMap } = props;
   const handleClick = (key: string) => {
     let newKeyboard = { ...keyMap };
-    newKeyboard[key].used = true;
+    newKeyboard[key].used = "HANGOFF".includes(key);
     setKeyMap(newKeyboard);
   };
 
@@ -26,7 +26,7 @@ const KeyRow: React.FC<KeyRowProps> = (props) => {
           key={letter}
           ref={(el) => (keyMap[letter].ref = el)}
           value={letter}
-          disabled={keyMap[letter].used}
+          disabled={keyMap[letter].used !== undefined}
           onClick={(e: any) => handleClick(e.target.value)}
           sx={{
             minWidth: "40px",
@@ -37,6 +37,9 @@ const KeyRow: React.FC<KeyRowProps> = (props) => {
               boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
             },
             "&:disabled": {
+              backgroundColor: keyMap[letter].used
+                ? `${theme.palette.success.light}`
+                : undefined,
               boxShadow: `0px 2px 1px ${theme.palette.primary.dark}`,
             },
           }}
