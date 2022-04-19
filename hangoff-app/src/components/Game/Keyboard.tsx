@@ -6,7 +6,8 @@ import {
   QWERTY_LAYOUT_DOWN,
   QWERTY_LAYOUT_MIDDLE,
   QWERTY_LAYOUT_UP,
-} from "../constants";
+} from "../../constants";
+
 import KeyRow, { KeyMap } from "./KeyRow";
 
 const initKeyboard = (): KeyMap => {

@@ -1,13 +1,13 @@
-import { ThemeProvider } from "@mui/material/styles";
-import { observer } from "mobx-react-lite";
 import React from "react";
 import "./App.css";
-import { MainPage } from "./components/MainPage";
-import { RoomPage } from "./components/RoomPage";
-import "./fonts.css";
-import { useStore } from "./hooks/useStore";
-import { getAppTheme } from "./theme";
-import { PageState } from "./types";
+import "../../fonts.css";
+import { ThemeProvider } from "@mui/material/styles";
+import { observer } from "mobx-react-lite";
+import { RoomPage } from "../Pages/RoomPage";
+import { useStore } from "../../hooks/useStore";
+import { getAppTheme } from "../../theme";
+import { PageState } from "../../types";
+import { MainPage } from "../Pages/MainPage";
 
 const theme = getAppTheme("light");
 

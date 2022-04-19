@@ -1,8 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { useStore } from "../hooks/useStore";
-import { PageState } from "../types";
+import { useStore } from "../../hooks/useStore";
+import { PageState } from "../../types";
 
 const MainPageComp: React.FC = () => {
   const {

@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { useStore } from "../hooks/useStore";
-import Hangman, { HangmanState } from "./Hangman";
-import Keyboard from "./Keyboard";
-import { Word } from "./Word";
+import { useStore } from "../../hooks/useStore";
+import Hangman, { HangmanState } from "../Game/Hangman";
+import Keyboard from "../Game/Keyboard";
+import { Word } from "../Game/Word";
 
 const RoomPageComp: React.FC = () => {
   const {
