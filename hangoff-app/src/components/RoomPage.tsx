@@ -1,4 +1,12 @@
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import Hangman, { HangmanState } from "./Hangman";
 import Keyboard from "./Keyboard";
@@ -7,9 +15,6 @@ const RoomPage: React.FC = () => {
   const [hangmanState, setHangmanState] = React.useState(0);
   return (
     <Box>
-      <Typography variant="h2" color="text.primary">
-        ROOM CODE: {"7SXD"}
-      </Typography>
       <Box
         sx={{
           display: "flex",
@@ -20,20 +25,72 @@ const RoomPage: React.FC = () => {
           marginTop: 5,
         }}
       >
+        <Typography variant="h2" color="text.secondary">
+          {"< WORD >"}
+        </Typography>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Box sx={{ display: "grid" }}>
-            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-              <Hangman
-                {...{ state: hangmanState as HangmanState, isFaded: false }}
-              />
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box sx={{ display: "grid" }}>
+              <Box sx={{ gridRow: 1, gridColumn: 1 }}>
+                <Hangman
+                  {...{ state: hangmanState as HangmanState, isFaded: false }}
+                />
+              </Box>
+              <Box sx={{ gridRow: 1, gridColumn: 1 }}>
+                <Hangman
+                  {...{ state: hangmanState as HangmanState, isFaded: true }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  marginLeft: "350px",
+                  marginTop: "50px",
+                }}
+              >
+                <Typography variant="h5" color="text.secondary">
+                  {"<WIN/LOSE MESSAGE>"}
+                </Typography>
+              </Box>
             </Box>
-            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-              <Hangman
-                {...{ state: hangmanState as HangmanState, isFaded: true }}
-              />
-            </Box>
+            <Keyboard />
           </Box>
-          <Keyboard />
+          <Card sx={{ minWidth: "500px", minHeight: "400px" }}>
+            <CardContent>
+              <Typography variant="h4" color="text.secondary">
+                {"< "}Chat + Game State{" >"}
+              </Typography>
+              <Typography variant="h5" color="text.primary">
+                ROOM CODE: {"7SXD"}
+              </Typography>
+              <Card
+                sx={{
+                  marginTop: "120px",
+                  textAlign: "left",
+                  minHeight: "150px",
+                  backgroundColor: "#252525",
+                }}
+              >
+                <CardContent>
+                  <Typography variant="body1" color="text.primary">
+                    GUY1: ...
+                  </Typography>
+                  <Typography variant="body1" color="text.primary">
+                    GUY2: ...
+                  </Typography>
+                  <Typography variant="body1" color="text.primary">
+                    GUY3: ...
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <TextField
+                    sx={{ width: "100%", borderColor: "#fff" }}
+                    label={"Send a message"}
+                  ></TextField>
+                </CardActions>
+              </Card>
+            </CardContent>
+          </Card>
         </Box>
         <Button
           size="large"

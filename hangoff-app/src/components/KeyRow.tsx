@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import React from "react";
 
 export type KeyMap = any;
@@ -10,6 +10,7 @@ interface KeyRowProps {
 }
 
 const KeyRow: React.FC<KeyRowProps> = (props) => {
+  const theme = useTheme();
   const { keys, keyMap, setKeyMap } = props;
   const handleClick = (key: string) => {
     let newKeyboard = { ...keyMap };
@@ -23,10 +24,22 @@ const KeyRow: React.FC<KeyRowProps> = (props) => {
         <Button
           variant="contained"
           key={letter}
-          ref={keyMap[letter].ref}
+          ref={(el) => (keyMap[letter].ref = el)}
           value={letter}
           disabled={keyMap[letter].used}
           onClick={(e: any) => handleClick(e.target.value)}
+          sx={{
+            minWidth: "40px",
+            boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main,
+              transform: "translateY(1px)",
+              boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
+            },
+            "&:disabled": {
+              boxShadow: `0px 2px 1px ${theme.palette.primary.dark}`,
+            },
+          }}
         >
           {letter}
         </Button>

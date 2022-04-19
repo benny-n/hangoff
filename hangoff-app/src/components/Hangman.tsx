@@ -1,6 +1,5 @@
-import { Box, Grow, List } from "@mui/material";
+import { Box, Grow } from "@mui/material";
 import React from "react";
-import { TransitionGroup } from "react-transition-group";
 
 export enum HangmanState {
   None = 0,
@@ -125,21 +124,17 @@ const completeHangman = [
   HangmanState.LeftArm,
 ];
 
-const renderHangman = (hangmen: HangmanState[]) => {
-  return hangmen.length > 0 ? (
-    <List>
-      <TransitionGroup>
-        <Box sx={{ display: "grid" }}>
-          {hangmen.map((state, index) => (
-            <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-              <Grow key={index} in={true} timeout={500}>
-                {renderHangmanPart(state)}
-              </Grow>
-            </Box>
-          ))}
+const renderHangman = (hangman: HangmanState[], timeout: number = 500) => {
+  return hangman.length > 0 ? (
+    <Box sx={{ display: "grid" }}>
+      {hangman.map((state, index) => (
+        <Box key={index} sx={{ gridRow: 1, gridColumn: 1 }}>
+          <Grow in={true} timeout={timeout}>
+            {renderHangmanPart(state)}
+          </Grow>
         </Box>
-      </TransitionGroup>
-    </List>
+      ))}
+    </Box>
   ) : (
     <></>
   );
@@ -171,11 +166,11 @@ const Hangman: React.FC<HangmanProps> = (props) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        opacity: isFaded ? 0.2 : 1,
-        filter: isFaded ? "blur(3px)" : "none",
+        opacity: isFaded ? 0.25 : 1,
+        filter: isFaded ? "blur(2.5px)" : "none",
       }}
     >
-      {isFaded ? renderHangman(completeHangman) : renderHangman(hangman)}
+      {isFaded ? renderHangman(completeHangman, 5000) : renderHangman(hangman)}
     </Box>
   );
 };

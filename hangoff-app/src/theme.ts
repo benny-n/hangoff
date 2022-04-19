@@ -23,7 +23,11 @@ export const getAppTheme = (
       },
       text: {
         primary: "#ededed",
-        secondary: "#ffffff",
+        secondary: "#ededed2a",
+      },
+      background: {
+        default: "#282c34",
+        paper: "rgb(56, 61, 73)",
       },
       action: {
         disabled: "#ededed44",

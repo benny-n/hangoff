@@ -26,9 +26,7 @@ const Keyboard: React.FC = () => {
   useEventListener("keydown", (event: Event) => {
     const key = (event as any).key.toUpperCase();
     if (keyMap[key]) {
-      let newKeyboard = { ...keyMap };
-      newKeyboard[key].used = true;
-      setKeyMap(newKeyboard);
+      keyMap[key].ref.click();
     }
   });
   return (
@@ -36,8 +34,9 @@ const Keyboard: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 1,
-        marginLeft: "-260px",
+        marginTop: "45px",
+        marginLeft: "150px",
+        gap: 3,
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "row", gap: 0.2 }}>
