@@ -7,6 +7,7 @@ import { PageState } from "../types";
 const MainPageComp: React.FC = () => {
   const {
     uiStore: { setPage },
+    dataStore: { createRoom },
   } = useStore();
 
   const handleClickJoinRoom = () => {
@@ -15,6 +16,7 @@ const MainPageComp: React.FC = () => {
 
   const handleClickCreateRoom = () => {
     // FIXME
+    createRoom();
     setPage(PageState.Room);
   };
 

@@ -9,10 +9,16 @@ import {
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { useStore } from "../hooks/useStore";
 import Hangman, { HangmanState } from "./Hangman";
 import Keyboard from "./Keyboard";
+import { Word } from "./Word";
 
 const RoomPageComp: React.FC = () => {
+  const {
+    dataStore: { roomState },
+  } = useStore();
+  console.log(roomState.word);
   const [hangmanState, setHangmanState] = React.useState(0);
   return (
     <Box>
@@ -26,9 +32,7 @@ const RoomPageComp: React.FC = () => {
           marginTop: 5,
         }}
       >
-        <Typography variant="h2" color="text.secondary">
-          {"< WORD >"}
-        </Typography>
+        <Word {...{ word: roomState.word, guesses: roomState.guesses }} />
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box sx={{ display: "grid" }}>
@@ -62,7 +66,7 @@ const RoomPageComp: React.FC = () => {
                 {"< "}Chat + Game State{" >"}
               </Typography>
               <Typography variant="h5" color="text.primary">
-                ROOM CODE: {"7SXD"}
+                ROOM CODE: {roomState.roomCode}
               </Typography>
               <Card
                 sx={{

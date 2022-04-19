@@ -1,9 +1,18 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { App } from "./App";
+import { RootStore } from "./stores/RootStore";
+import { StoreProvider } from "./hooks/useStore";
 
 test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  let appStore = new RootStore();
+  render(
+    <StoreProvider store={appStore}>
+      <App />
+    </StoreProvider>
+  );
+  const createRoomButtonText = screen.getByText(/Create Room/i);
+  const joinRoomButtonText = screen.getByText(/Join Room/i);
+  expect(createRoomButtonText).toBeInTheDocument();
+  expect(joinRoomButtonText).toBeInTheDocument();
 });

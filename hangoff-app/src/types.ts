@@ -11,6 +11,7 @@ export enum GameState {
 }
 
 export interface RoomState {
+  roomCode: string;
   host: string;
   word: string;
   guesses: number[];
