@@ -1,24 +1,25 @@
-import { Switch } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { observer } from "mobx-react-lite";
 import React from "react";
 import "./App.css";
-import MainPage from "./components/MainPage";
-import RoomPage from "./components/RoomPage";
+import { MainPage } from "./components/MainPage";
+import { RoomPage } from "./components/RoomPage";
 import "./fonts.css";
+import { useStore } from "./hooks/useStore";
 import { getAppTheme } from "./theme";
+import { PageState } from "./types";
 
 const theme = getAppTheme("light");
 
-function App() {
-  const [page, setPage] = React.useState(true);
+const AppComp: React.FC = () => {
+  const {
+    uiStore: { currentPage },
+  } = useStore();
   return (
     <ThemeProvider theme={theme}>
-      <>
-        <Switch value={page} onClick={() => setPage(!page)} />
-        {page ? <MainPage /> : <RoomPage />}
-      </>
+      {currentPage === PageState.Main ? <MainPage /> : <RoomPage />}
     </ThemeProvider>
   );
-}
+};
 
-export default App;
+export const App = observer(AppComp);

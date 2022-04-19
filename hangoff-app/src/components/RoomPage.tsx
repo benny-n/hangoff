@@ -7,11 +7,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import React from "react";
 import Hangman, { HangmanState } from "./Hangman";
 import Keyboard from "./Keyboard";
 
-const RoomPage: React.FC = () => {
+const RoomPageComp: React.FC = () => {
   const [hangmanState, setHangmanState] = React.useState(0);
   return (
     <Box>
@@ -104,4 +105,4 @@ const RoomPage: React.FC = () => {
   );
 };
 
-export default RoomPage;
+export const RoomPage = observer(RoomPageComp);
