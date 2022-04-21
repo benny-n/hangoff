@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grow, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 
 export interface WordProps {
@@ -9,12 +9,26 @@ export interface WordProps {
 const WordComp: React.FC<WordProps> = (props) => {
   const { word, guesses } = props;
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-      {Array.from(word).map((char, index) => (
-        <Typography key={index} variant="h2" color="text.primary">
-          {guesses.includes(index) ? char : "_"}
-        </Typography>
-      ))}
+    <Box sx={{ display: "grid", gap: 1.5 }}>
+      {Array.from(word).map((char, index) =>
+        guesses.includes(index) ? (
+          <Box key={index} sx={{ gridRow: 1, gridColumn: index + 1 }}>
+            <Grow in={true} timeout={500}>
+              <Typography variant="h2" color="text.primary">
+                {char}
+              </Typography>
+            </Grow>
+          </Box>
+        ) : (
+          <Box key={index + "_"} sx={{ gridRow: 1, gridColumn: index + 1 }}>
+            <Grow in={true} timeout={500}>
+              <Typography variant="h2" color="text.primary">
+                _
+              </Typography>
+            </Grow>
+          </Box>
+        )
+      )}
     </Box>
   );
 };

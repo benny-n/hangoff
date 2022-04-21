@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import useEventListener from "@use-it/event-listener";
+import { observer } from "mobx-react-lite";
 import React from "react";
 import {
   ALPHABET,
@@ -7,8 +8,9 @@ import {
   QWERTY_LAYOUT_MIDDLE,
   QWERTY_LAYOUT_UP,
 } from "../../constants";
+import { useStore } from "../../hooks/useStore";
 
-import KeyRow, { KeyMap } from "./KeyRow";
+import { KeyRow, KeyMap } from "./KeyRow";
 
 const initKeyboard = (): KeyMap => {
   let keyMap = {} as KeyMap;
@@ -20,9 +22,15 @@ const initKeyboard = (): KeyMap => {
   return keyMap;
 };
 
-const Keyboard: React.FC = () => {
+const KeyboardComp: React.FC = () => {
+  const {
+    uiStore: { chatFocused },
+  } = useStore();
   const [keyMap, setKeyMap] = React.useState(initKeyboard());
   useEventListener("keydown", (event: Event) => {
+    if (chatFocused) {
+      return;
+    }
     const key = (event as any).key.toUpperCase();
     if (keyMap[key]) {
       keyMap[key].ref.click();
@@ -54,4 +62,5 @@ const Keyboard: React.FC = () => {
     </Box>
   );
 };
-export default Keyboard;
+
+export const Keyboard = observer(KeyboardComp);

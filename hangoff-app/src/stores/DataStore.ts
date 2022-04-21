@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { RoomState, GameState } from "../types";
+import { RoomState, GameState, HangmanState } from "../types";
 import { RootStore } from "./RootStore";
 
 export class DataStore {
@@ -23,9 +23,10 @@ export class DataStore {
       roomCode: this.generateRoomCode(),
       host: "Benny",
       word: "HANGOFF",
-      guesses: [0, 1, 5],
+      guesses: [],
       players: [],
       gameState: GameState.WaitingForPlayers,
+      hangmanState: HangmanState.None,
     };
   };
 

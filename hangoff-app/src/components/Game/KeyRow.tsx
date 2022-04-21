@@ -1,5 +1,7 @@
 import { Button, useTheme } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { useStore } from "../../hooks/useStore";
 
 export type KeyMap = any;
 
@@ -9,12 +11,30 @@ interface KeyRowProps {
   setKeyMap: (keyboard: KeyMap) => void;
 }
 
-const KeyRow: React.FC<KeyRowProps> = (props) => {
+const KeyRowComp: React.FC<KeyRowProps> = (props) => {
   const theme = useTheme();
   const { keys, keyMap, setKeyMap } = props;
+  const {
+    dataStore: { roomState, updateRoom },
+  } = useStore();
   const handleClick = (key: string) => {
     let newKeyboard = { ...keyMap };
-    newKeyboard[key].used = "HANGOFF".includes(key);
+    let newRoomState = { ...roomState };
+    let isInWord = roomState.word.includes(key);
+    newKeyboard[key].used = isInWord;
+    if (isInWord) {
+      let indices = Array.from(roomState.word).reduce(
+        // get all indices of the key in the word
+        (acc: number[], char, idx) => (char === key ? [...acc, idx] : acc),
+        []
+      );
+      newRoomState.guesses = newRoomState.guesses.concat(indices);
+    } else {
+      // FIXME - this is a hack to get the hangman to restart
+      //newRoomState.hangmanState += 1;
+      newRoomState.hangmanState = (newRoomState.hangmanState + 1) % 12;
+    }
+    updateRoom(newRoomState);
     setKeyMap(newKeyboard);
   };
 
@@ -51,4 +71,4 @@ const KeyRow: React.FC<KeyRowProps> = (props) => {
   );
 };
 
-export default KeyRow;
+export const KeyRow = observer(KeyRowComp);

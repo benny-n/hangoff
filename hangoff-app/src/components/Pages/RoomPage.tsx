@@ -1,25 +1,45 @@
 import {
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { useStore } from "../../hooks/useStore";
-import Hangman, { HangmanState } from "../Game/Hangman";
-import Keyboard from "../Game/Keyboard";
+import Hangman from "../Game/Hangman";
+import { Keyboard } from "../Game/Keyboard";
 import { Word } from "../Game/Word";
+import useEventListener from "@use-it/event-listener";
 
 const RoomPageComp: React.FC = () => {
   const {
     dataStore: { roomState },
+    uiStore: { chatFocused, setChatFocused },
   } = useStore();
-  console.log(roomState.word);
-  const [hangmanState, setHangmanState] = React.useState(0);
+
+  const handleClickSend = () => {
+    if (!chatFocused) {
+      return;
+    }
+    // TODO
+    console.log("Send");
+  };
+
+  useEventListener("keydown", (event: Event) => {
+    if (!chatFocused) {
+      return;
+    }
+    const key = (event as any).key;
+    if (key === "Enter") {
+      handleClickSend();
+    }
+  });
+
   return (
     <Box>
       <Box
@@ -37,13 +57,11 @@ const RoomPageComp: React.FC = () => {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box sx={{ display: "grid" }}>
               <Box sx={{ gridRow: 1, gridColumn: 1 }}>
-                <Hangman
-                  {...{ state: hangmanState as HangmanState, isFaded: false }}
-                />
+                <Hangman {...{ isFaded: true }} />
               </Box>
               <Box sx={{ gridRow: 1, gridColumn: 1 }}>
                 <Hangman
-                  {...{ state: hangmanState as HangmanState, isFaded: true }}
+                  {...{ state: roomState.hangmanState, isFaded: false }}
                 />
               </Box>
               <Box
@@ -88,22 +106,33 @@ const RoomPageComp: React.FC = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <TextField
-                    sx={{ width: "100%", borderColor: "#fff" }}
-                    label={"Send a message"}
-                  ></TextField>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "100%",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <TextField
+                      sx={{ borderColor: "#fff", width: "100%" }}
+                      label={"Send a message"}
+                      onFocus={() => setChatFocused(true)}
+                      onBlur={() => setChatFocused(false)}
+                      size="small"
+                    />
+                    <IconButton
+                      color={chatFocused ? "primary" : undefined}
+                      onClick={() => handleClickSend()}
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Box>
                 </CardActions>
               </Card>
             </CardContent>
           </Card>
         </Box>
-        <Button
-          size="large"
-          variant="contained"
-          onClick={() => setHangmanState((hangmanState + 1) % 12)}
-        >
-          +
-        </Button>
       </Box>
     </Box>
   );

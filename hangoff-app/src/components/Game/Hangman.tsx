@@ -1,20 +1,6 @@
 import { Box, Grow } from "@mui/material";
 import React from "react";
-
-export enum HangmanState {
-  None = 0,
-  Ground = 1,
-  ScaffoldBase = 2,
-  ScaffoldPole = 3,
-  ScaffoldWithRope = 4,
-  Head = 5,
-  Body = 6,
-  RightLeg = 7,
-  LeftLeg = 8,
-  RightArm = 9,
-  LeftArm = 10,
-  Dead = 11,
-}
+import { HangmanState } from "../../types";
 
 const renderHangmanPart = (state: HangmanState) => {
   const hangmanPartAlt = "hangman";
@@ -141,7 +127,7 @@ const renderHangman = (hangman: HangmanState[], timeout: number = 500) => {
 };
 
 interface HangmanProps {
-  state: HangmanState;
+  state?: HangmanState;
   isFaded: boolean;
 }
 
@@ -151,7 +137,7 @@ const Hangman: React.FC<HangmanProps> = (props) => {
     HangmanState.None,
   ]);
   React.useEffect(() => {
-    if (state !== HangmanState.None) {
+    if (state !== undefined && state !== HangmanState.None) {
       let newHangman = hangman.slice();
       newHangman.push(state);
       setHangman(newHangman);
