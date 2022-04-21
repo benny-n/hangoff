@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { Timer as TimerIcon } from "@mui/icons-material";
 import React from "react";
 
 const begin = new Date();
@@ -15,16 +16,26 @@ const Timer: React.FC = () => {
       const hours = Math.floor(minutes / 60);
       setNow(
         `${hours < 10 ? "0" + hours : hours}:${
-          minutes < 10 ? `0${minutes}` : minutes
+          minutes % 60 < 10 ? `0${minutes % 60}` : minutes
         }:${seconds < 10 ? `0${seconds}` : seconds}`
       );
     }, 1000);
     return () => clearInterval(interval);
   }, []);
   return (
-    <Typography variant="h5" color="primary">
-      {now}
-    </Typography>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 1,
+      }}
+    >
+      <TimerIcon color="primary" />
+      <Typography variant="h5" color="primary">
+        {now}
+      </Typography>
+    </Box>
   );
 };
 

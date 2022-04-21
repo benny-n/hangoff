@@ -3,6 +3,7 @@ import { RoomState, GameState, HangmanState } from "../types";
 import { RootStore } from "./RootStore";
 
 export class DataStore {
+  public player: string = "GUY 1"; //FIXME
   public roomState = {} as RoomState;
 
   constructor(public readonly rootStore: RootStore) {
@@ -20,13 +21,14 @@ export class DataStore {
 
   createRoom = () => {
     this.roomState = {
-      roomCode: this.generateRoomCode(),
-      host: "Benny",
-      word: "HANGOFF",
+      roomCode: this.generateRoomCode(), //FIXME
+      host: "Benny", //FIXME
+      word: "HANGOFF", //FIXME
       guesses: [],
       players: [],
       gameState: GameState.WaitingForPlayers,
       hangmanState: HangmanState.None,
+      chatMessages: [{ text: "Welcome to Hangoff!" }],
     };
   };
 

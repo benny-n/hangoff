@@ -24,6 +24,10 @@ export enum GameState {
   GameOverHostWon,
   GameOverClientWon,
 }
+export interface ChatMessage {
+  player?: string; // if undefined, it's a system message
+  text: string;
+}
 export interface RoomState {
   roomCode: string;
   host: string;
@@ -32,4 +36,5 @@ export interface RoomState {
   players: string[];
   gameState: GameState;
   hangmanState: HangmanState;
+  chatMessages: ChatMessage[];
 }
