@@ -1,8 +1,9 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
+const begin = new Date();
+
 const Timer: React.FC = () => {
-  const begin = new Date();
   const [now, setNow] = React.useState("00:00:00");
 
   React.useEffect(() => {

@@ -27,14 +27,19 @@ const KeyboardComp: React.FC = () => {
     uiStore: { chatFocused },
   } = useStore();
   const [keyMap, setKeyMap] = React.useState(initKeyboard());
+  const [onCooldown, setOnCooldown] = React.useState(false);
   useEventListener("keydown", (event: Event) => {
-    if (chatFocused) {
+    if (chatFocused || onCooldown) {
       return;
     }
     const key = (event as any).key.toUpperCase();
     if (keyMap[key]) {
       keyMap[key].ref.click();
     }
+    setOnCooldown(true);
+    setTimeout(() => {
+      setOnCooldown(false);
+    });
   });
   return (
     <Box
