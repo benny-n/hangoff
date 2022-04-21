@@ -5,8 +5,8 @@ import { HangmanState } from "../../types";
 const renderHangmanPart = (state: HangmanState) => {
   const hangmanPartAlt = "hangman";
   const hangmanPartStyle = {
-    height: "200px",
-    width: "650px",
+    height: "350px",
+    width: "700px",
   };
 
   switch (state) {

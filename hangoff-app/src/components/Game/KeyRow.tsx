@@ -49,7 +49,8 @@ const KeyRowComp: React.FC<KeyRowProps> = (props) => {
           disabled={keyMap[letter].used !== undefined}
           onClick={(e: any) => handleClick(e.target.value)}
           sx={{
-            minWidth: "40px",
+            minWidth: "50px",
+            minHeight: "40px",
             boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
             "&:hover": {
               backgroundColor: theme.palette.primary.main,

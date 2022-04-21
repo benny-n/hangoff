@@ -41,7 +41,6 @@ const KeyboardComp: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        marginTop: "45px",
         marginLeft: "150px",
         gap: 3,
       }}

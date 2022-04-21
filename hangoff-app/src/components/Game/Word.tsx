@@ -14,7 +14,7 @@ const WordComp: React.FC<WordProps> = (props) => {
         guesses.includes(index) ? (
           <Box key={index} sx={{ gridRow: 1, gridColumn: index + 1 }}>
             <Grow in={true} timeout={500}>
-              <Typography variant="h2" color="text.primary">
+              <Typography variant="h1" color="text.primary">
                 {char}
               </Typography>
             </Grow>
@@ -22,7 +22,7 @@ const WordComp: React.FC<WordProps> = (props) => {
         ) : (
           <Box key={index + "_"} sx={{ gridRow: 1, gridColumn: index + 1 }}>
             <Grow in={true} timeout={500}>
-              <Typography variant="h2" color="text.primary">
+              <Typography variant="h1" color="text.primary">
                 _
               </Typography>
             </Grow>

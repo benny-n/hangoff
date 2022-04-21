@@ -15,12 +15,14 @@ import Hangman from "../Game/Hangman";
 import { Keyboard } from "../Game/Keyboard";
 import { Word } from "../Game/Word";
 import useEventListener from "@use-it/event-listener";
+import Timer from "../Common/Timer";
 
 const RoomPageComp: React.FC = () => {
   const {
     dataStore: { roomState },
     uiStore: { chatFocused, setChatFocused },
   } = useStore();
+  <Timer />;
 
   const handleClickSend = () => {
     if (!chatFocused) {
@@ -29,6 +31,8 @@ const RoomPageComp: React.FC = () => {
     // TODO
     console.log("Send");
   };
+
+  <Timer />;
 
   useEventListener("keydown", (event: Event) => {
     if (!chatFocused) {
@@ -53,9 +57,9 @@ const RoomPageComp: React.FC = () => {
         }}
       >
         <Word {...{ word: roomState.word, guesses: roomState.guesses }} />
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Box sx={{ display: "grid" }}>
+            <Box sx={{ display: "grid", marginTop: "-15px" }}>
               <Box sx={{ gridRow: 1, gridColumn: 1 }}>
                 <Hangman {...{ isFaded: true }} />
               </Box>
@@ -67,8 +71,8 @@ const RoomPageComp: React.FC = () => {
               <Box
                 sx={{
                   position: "absolute",
-                  marginLeft: "350px",
-                  marginTop: "50px",
+                  marginLeft: "450px",
+                  marginTop: "150px",
                 }}
               >
                 <Typography variant="h5" color="text.secondary">
@@ -78,23 +82,38 @@ const RoomPageComp: React.FC = () => {
             </Box>
             <Keyboard />
           </Box>
-          <Card sx={{ minWidth: "500px", minHeight: "400px" }}>
-            <CardContent>
-              <Typography variant="h4" color="text.secondary">
-                {"< "}Chat + Game State{" >"}
-              </Typography>
-              <Typography variant="h5" color="text.primary">
-                ROOM CODE: {roomState.roomCode}
-              </Typography>
+          <Card
+            sx={{ minWidth: "700px", minHeight: "400px", marginBottom: "-3px" }}
+          >
+            <CardContent
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "92.5%",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingLeft: 2,
+                  paddingRight: 2,
+                }}
+              >
+                <Typography variant="h5" color="text.primary">
+                  ROOM CODE: {roomState.roomCode}
+                </Typography>
+                <Timer />
+              </Box>
               <Card
                 sx={{
-                  marginTop: "120px",
                   textAlign: "left",
-                  minHeight: "150px",
                   backgroundColor: "#252525",
                 }}
               >
-                <CardContent>
+                <CardContent sx={{ minHeight: "200px" }}>
                   <Typography variant="body1" color="text.primary">
                     GUY1: ...
                   </Typography>
