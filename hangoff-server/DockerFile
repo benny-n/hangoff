@@ -1,0 +1,17 @@
+FROM golang:1.16-alpine
+
+WORKDIR /hangoff-server
+
+# Take all files and put in docker
+COPY * ./
+
+# DOWNLOAD DEPENDENCIES
+RUN go mod download
+
+# Build server executable
+RUN go build -o /hangoff-server
+
+# Expose target port
+EXPOSE 5545
+
+CMD [ "/hangoff-server" ]
