@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../hooks/useStore";
-import Timer from "../Common/Timer";
+import { Timer } from "../Time/Timer";
 import { ChatCard } from "./ChatCard";
 
 const RoomCardComp: React.FC = () => {

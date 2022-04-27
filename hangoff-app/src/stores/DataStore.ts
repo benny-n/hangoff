@@ -1,10 +1,19 @@
 import { makeAutoObservable } from "mobx";
-import { RoomState, GameState, HangmanState } from "../types";
+import { HangmanStateToString } from "../constants";
+import {
+  RoomState,
+  GameState,
+  HangmanState,
+  GameMode,
+  GameResults,
+} from "../types";
 import { RootStore } from "./RootStore";
 
 export class DataStore {
   public player: string = "GUY 1"; //FIXME
+  public isGameOver: boolean = false;
   public roomState = {} as RoomState;
+  public gameResults = {} as GameResults;
 
   constructor(public readonly rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
@@ -19,11 +28,42 @@ export class DataStore {
     return code;
   };
 
-  createRoom = () => {
+  setIsGameOver = () => {
+    this.isGameOver =
+      this.roomState.gameState === GameState.GameOverHostWon ||
+      this.roomState.gameState === GameState.GameOverClientWon;
+  };
+
+  updateGameState = (key: string) => {
+    let newRoomState = { ...this.roomState };
+    let newGameResults = { ...this.gameResults };
+    if (this.roomState.word.includes(key)) {
+      let indices = Array.from(this.roomState.word).reduce(
+        // get all indices of the key in the word
+        (acc: number[], char, idx) => (char === key ? [...acc, idx] : acc),
+        []
+      );
+      newRoomState.guesses = newRoomState.guesses.concat(indices);
+      if (this.roomState.word.length === newRoomState.guesses.length) {
+        newRoomState.gameState = GameState.GameOverClientWon;
+      }
+    } else {
+      newRoomState.hangmanState += 1;
+      if (newRoomState.hangmanState === HangmanState.Dead) {
+        newRoomState.gameState = GameState.GameOverHostWon;
+      }
+    }
+    newGameResults.hangmanState = newRoomState.hangmanState;
+    this.updateGameResults(newGameResults);
+    this.updateRoom(newRoomState);
+  };
+
+  createRoom = async (gameMode: GameMode) => {
     this.roomState = {
+      gameMode,
       roomCode: this.generateRoomCode(), //FIXME
       host: "Benny", //FIXME
-      word: "HANGOFF", //FIXME
+      word: "",
       guesses: [],
       players: [],
       gameState: GameState.WaitingForPlayers,
@@ -34,5 +74,30 @@ export class DataStore {
 
   updateRoom = (roomState: RoomState) => {
     this.roomState = roomState;
+    this.setIsGameOver();
+  };
+
+  updateGameResults = (gameResults: GameResults) => {
+    this.gameResults = gameResults;
+  };
+
+  isGameWon = (): boolean => {
+    switch (this.roomState.gameMode) {
+      case GameMode.Daily:
+        return this.roomState.gameState === GameState.GameOverClientWon;
+      case GameMode.Multiplayer:
+        // TODO: implement multiplayer (depends on if the user is host or client)
+        return false;
+    }
+  };
+
+  shareGameResults = (): string => {
+    let attempts = +this.gameResults.hangmanState;
+    let maxAttempts = HangmanState.Dead - 1;
+    let outputString = `Hangoff ${
+      attempts > maxAttempts ? "X" : attempts
+    }/${maxAttempts}, ${this.gameResults.time} \n`;
+    outputString += HangmanStateToString[this.gameResults.hangmanState];
+    return outputString;
   };
 }

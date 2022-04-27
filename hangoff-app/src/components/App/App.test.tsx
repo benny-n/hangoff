@@ -10,8 +10,8 @@ test("renders create room + join room buttons", () => {
       <App />
     </StoreProvider>
   );
-  const createRoomButtonText = screen.getByText(/Create Room/i);
-  const joinRoomButtonText = screen.getByText(/Join Room/i);
-  expect(createRoomButtonText).toBeInTheDocument();
-  expect(joinRoomButtonText).toBeInTheDocument();
+  const dailyButton = screen.getByText(/daily/i);
+  const multiplayerButton = screen.getByText(/multiplayer/i);
+  expect(dailyButton).toBeInTheDocument();
+  expect(multiplayerButton).toBeInTheDocument();
 });

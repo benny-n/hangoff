@@ -1,7 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { useStore } from "../../hooks/useStore";
+import { GameMode } from "../../types";
+import { Timer } from "../Time/Timer";
+import { EndGameBox } from "../Game/EndGameBox";
 import Hangman from "../Game/Hangman";
 import { Keyboard } from "../Game/Keyboard";
 import { Word } from "../Game/Word";
@@ -9,7 +12,7 @@ import { RoomCard } from "../Room/RoomCard";
 
 const RoomPageComp: React.FC = () => {
   const {
-    dataStore: { roomState },
+    dataStore: { roomState, isGameOver },
   } = useStore();
 
   return (
@@ -24,6 +27,7 @@ const RoomPageComp: React.FC = () => {
       }}
     >
       <Word {...{ word: roomState.word, guesses: roomState.guesses }} />
+      {roomState.gameMode !== GameMode.Multiplayer && <Timer />}
       <Box sx={{ display: "flex", flexDirection: "row", gap: 5 }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ display: "grid", marginTop: "-15px" }}>
@@ -40,14 +44,12 @@ const RoomPageComp: React.FC = () => {
                 marginTop: "150px",
               }}
             >
-              <Typography variant="h5" color="text.secondary">
-                {"<WIN/LOSE MESSAGE>"}
-              </Typography>
+              {isGameOver && <EndGameBox />}
             </Box>
           </Box>
           <Keyboard />
         </Box>
-        <RoomCard />
+        {roomState.gameMode === GameMode.Multiplayer && <RoomCard />}
       </Box>
     </Box>
   );

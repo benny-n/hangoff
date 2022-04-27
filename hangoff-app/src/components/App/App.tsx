@@ -8,8 +8,10 @@ import { useStore } from "../../hooks/useStore";
 import { getAppTheme } from "../../theme";
 import { PageState } from "../../types";
 import { MainPage } from "../Pages/MainPage";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const theme = getAppTheme("light");
+const queryClient = new QueryClient();
 
 const AppComp: React.FC = () => {
   const {
@@ -17,7 +19,9 @@ const AppComp: React.FC = () => {
   } = useStore();
   return (
     <ThemeProvider theme={theme}>
-      {currentPage === PageState.Main ? <MainPage /> : <RoomPage />}
+      <QueryClientProvider client={queryClient}>
+        {currentPage === PageState.Main ? <MainPage /> : <RoomPage />}
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };
