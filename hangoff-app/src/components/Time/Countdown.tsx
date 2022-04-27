@@ -22,7 +22,7 @@ const Countdown: React.FC = () => {
       setNow(dateTimeToString(diff));
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  });
   return (
     <Box
       sx={{

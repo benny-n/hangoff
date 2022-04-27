@@ -35,7 +35,7 @@ const MainPageComp: React.FC = () => {
     return () => {
       setTriggerFetchWord(false);
     };
-  }, [isSuccess]);
+  }, [isSuccess, roomState, setPage, updateRoom, word]);
 
   return (
     <Box>
