@@ -1,15 +1,13 @@
-name: Run tests
-
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  build_test:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
