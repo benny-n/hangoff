@@ -1,3 +1,8 @@
+export enum GameMode {
+  Daily,
+  Multiplayer,
+}
+
 export enum HangmanState {
   None = 0,
   Ground = 1,
@@ -24,11 +29,17 @@ export enum GameState {
   GameOverHostWon,
   GameOverClientWon,
 }
+
+export interface GameResults {
+  time: string;
+  hangmanState: HangmanState;
+}
 export interface ChatMessage {
   player?: string; // if undefined, it's a system message
   text: string;
 }
 export interface RoomState {
+  gameMode: GameMode;
   roomCode: string;
   host: string;
   word: string;

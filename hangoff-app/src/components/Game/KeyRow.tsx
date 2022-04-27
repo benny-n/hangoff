@@ -15,26 +15,12 @@ const KeyRowComp: React.FC<KeyRowProps> = (props) => {
   const theme = useTheme();
   const { keys, keyMap, setKeyMap } = props;
   const {
-    dataStore: { roomState, updateRoom },
+    dataStore: { roomState, updateGameState, isGameOver },
   } = useStore();
   const handleClick = (key: string) => {
     let newKeyboard = { ...keyMap };
-    let newRoomState = { ...roomState };
-    let isInWord = roomState.word.includes(key);
-    newKeyboard[key].used = isInWord;
-    if (isInWord) {
-      let indices = Array.from(roomState.word).reduce(
-        // get all indices of the key in the word
-        (acc: number[], char, idx) => (char === key ? [...acc, idx] : acc),
-        []
-      );
-      newRoomState.guesses = newRoomState.guesses.concat(indices);
-    } else {
-      // FIXME - this is a hack to get the hangman to restart
-      //newRoomState.hangmanState += 1;
-      newRoomState.hangmanState = (newRoomState.hangmanState + 1) % 12;
-    }
-    updateRoom(newRoomState);
+    newKeyboard[key].used = roomState.word.includes(key);
+    updateGameState(key);
     setKeyMap(newKeyboard);
   };
 
@@ -46,7 +32,7 @@ const KeyRowComp: React.FC<KeyRowProps> = (props) => {
           key={letter}
           ref={(el) => (keyMap[letter].ref = el)}
           value={letter}
-          disabled={keyMap[letter].used !== undefined}
+          disabled={keyMap[letter].used !== undefined || isGameOver}
           onClick={(e: any) => handleClick(e.target.value)}
           sx={{
             minWidth: "50px",
