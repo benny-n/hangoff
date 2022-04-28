@@ -1,12 +1,13 @@
 import { Box, Grow } from "@mui/material";
 import React from "react";
+import { useDeviceType } from "../../hooks/useDeviceType";
 import { HangmanState } from "../../types";
 
-const renderHangmanPart = (state: HangmanState) => {
+const renderHangmanPart = (state: HangmanState, responsiveWidth: number) => {
   const hangmanPartAlt = "hangman";
   const hangmanPartStyle = {
-    height: "350px",
-    width: "700px",
+    height: responsiveWidth / 2 + "px",
+    width: responsiveWidth + "px",
   };
 
   switch (state) {
@@ -110,13 +111,17 @@ const completeHangman = [
   HangmanState.LeftArm,
 ];
 
-const renderHangman = (hangman: HangmanState[], timeout: number = 500) => {
+const renderHangman = (
+  hangman: HangmanState[],
+  responsiveWidth: number,
+  timeout: number = 500
+) => {
   return hangman.length > 0 ? (
     <Box sx={{ display: "grid" }}>
       {hangman.map((state, index) => (
         <Box key={index} sx={{ gridRow: 1, gridColumn: 1 }}>
           <Grow in={true} timeout={timeout}>
-            {renderHangmanPart(state)}
+            {renderHangmanPart(state, responsiveWidth)}
           </Grow>
         </Box>
       ))}
@@ -133,6 +138,8 @@ interface HangmanProps {
 
 const Hangman: React.FC<HangmanProps> = (props) => {
   const { state, isFaded } = props;
+  const { isTablet, isMobile } = useDeviceType();
+  const responsiveWidth = isMobile ? 200 : isTablet ? 400 : 700;
   const [hangman, setHangman] = React.useState<HangmanState[]>([
     HangmanState.None,
   ]);
@@ -152,11 +159,14 @@ const Hangman: React.FC<HangmanProps> = (props) => {
       sx={{
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         opacity: isFaded ? 0.25 : 1,
         filter: isFaded ? "blur(2.5px)" : "none",
       }}
     >
-      {isFaded ? renderHangman(completeHangman, 5000) : renderHangman(hangman)}
+      {isFaded
+        ? renderHangman(completeHangman, responsiveWidth, 5000)
+        : renderHangman(hangman, responsiveWidth)}
     </Box>
   );
 };

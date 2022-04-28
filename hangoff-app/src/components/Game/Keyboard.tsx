@@ -8,6 +8,7 @@ import {
   QWERTY_LAYOUT_MIDDLE,
   QWERTY_LAYOUT_UP,
 } from "../../constants";
+import { useDeviceType } from "../../hooks/useDeviceType";
 import { useStore } from "../../hooks/useStore";
 
 import { KeyRow, KeyMap } from "./KeyRow";
@@ -26,6 +27,7 @@ const KeyboardComp: React.FC = () => {
   const {
     uiStore: { chatFocused },
   } = useStore();
+  const { isDesktop } = useDeviceType();
   const [keyMap, setKeyMap] = React.useState(initKeyboard());
   const [onCooldown, setOnCooldown] = React.useState(false);
   useEventListener("keydown", (event: Event) => {
@@ -46,7 +48,7 @@ const KeyboardComp: React.FC = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        marginLeft: "150px",
+        marginLeft: isDesktop ? "150px" : undefined,
         gap: 3,
       }}
     >

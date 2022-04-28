@@ -2,10 +2,12 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Box, Button, Slide, Snackbar, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { useDeviceType } from "../../hooks/useDeviceType";
 import { useStore } from "../../hooks/useStore";
 import { GameMode, GameState } from "../../types";
 
 const EndGameBoxComp: React.FC = () => {
+  const { isMobile } = useDeviceType();
   const [copyToClipboardAlert, setCopyToClipboardAlert] = React.useState(false);
   const {
     dataStore: {
@@ -29,22 +31,35 @@ const EndGameBoxComp: React.FC = () => {
   return (
     <>
       <Slide in={true} timeout={500}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: isMobile ? 0.5 : 2,
+          }}
+        >
           {!isWin && (
-            <Typography variant="h4" color="text.secondary">
+            <Typography variant={isMobile ? "h5" : "h4"} color="text.secondary">
               {word}
             </Typography>
           )}
-          <Typography variant="h5" color="text.secondary">
-            {`Game over, ${isWin ? "you won!" : "you lost."}`}
+          <Typography variant={isMobile ? "h6" : "h5"} color="text.secondary">
+            {`${isWin ? "You won!" : "Game over."}`}
           </Typography>
           <Button
-            sx={{ maxWidth: "80px", alignSelf: "center" }}
+            sx={{
+              maxWidth: "100px",
+              alignSelf: "center",
+              alignItems: "center",
+            }}
             variant="contained"
+            size={isMobile ? "small" : undefined}
             endIcon={<ShareIcon />}
             onClick={() => handleClickShare()}
           >
-            Share
+            <Typography fontSize={isMobile ? "10px" : "undefined"}>
+              Share
+            </Typography>
           </Button>
         </Box>
       </Slide>

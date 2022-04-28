@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { useDeviceType } from "../../hooks/useDeviceType";
 import { useFetchWord } from "../../hooks/useFetchWord";
 import { useStore } from "../../hooks/useStore";
 import { GameMode, PageState } from "../../types";
@@ -17,6 +18,7 @@ const MainPageComp: React.FC = () => {
     uiStore: { setPage },
     dataStore: { createRoom, roomState, updateRoom },
   } = useStore();
+  const { isDesktop, isTablet, isMobile } = useDeviceType();
   const [triggerFetchWord, setTriggerFetchWord] = React.useState(false);
   const { data: word, isSuccess, isLoading } = useFetchWord(triggerFetchWord);
 
@@ -39,11 +41,18 @@ const MainPageComp: React.FC = () => {
 
   return (
     <Box>
-      <img src="/hangoff.svg" className="App-logo" alt="logo" />
+      <img
+        src="/hangoff.svg"
+        className="App-logo"
+        alt="logo"
+        style={{
+          width: isMobile ? "280px" : isTablet ? "600px" : "1000px",
+        }}
+      />
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: isDesktop ? "row" : "column",
           gap: 3,
           alignItems: "center",
           justifyContent: "center",
@@ -51,23 +60,30 @@ const MainPageComp: React.FC = () => {
         }}
       >
         <Button
-          sx={{ minWidth: "290px", minHeight: "70px", textTransform: "none" }}
+          sx={{
+            minWidth: isMobile ? "100px" : isTablet ? "185px" : "290px",
+            minHeight: "70px",
+            textTransform: "none",
+          }}
           variant="contained"
           onClick={() => handleClickCreateRoom(GameMode.Daily)}
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize="30px">DAILY</Typography>
+            <Typography variant="h4">DAILY</Typography>
             <Countdown />
           </Box>
         </Button>
         <Button
-          sx={{ minWidth: "290px", minHeight: "70px" }}
+          sx={{
+            minWidth: isMobile ? "100px" : isTablet ? "185px" : "290px",
+            minHeight: "70px",
+          }}
           variant="contained"
           onClick={() => handleClickCreateRoom(GameMode.Multiplayer)}
           disabled
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography fontSize="30px">Multiplayer</Typography>
+            <Typography variant="h4">Multiplayer</Typography>
             <Typography fontSize="12px" color="text.secondary">
               (coming soon)
             </Typography>
