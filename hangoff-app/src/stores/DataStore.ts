@@ -92,12 +92,10 @@ export class DataStore {
   };
 
   shareGameResults = (): string => {
-    let attempts = +this.gameResults.hangmanState;
-    let maxAttempts = HangmanState.Dead - 1;
-    let MM_DD_YYYY = new Date().toLocaleDateString();
-    let dateParts = MM_DD_YYYY.split("/");
-    let DD_MM_YYYY = `${dateParts[1]}/${dateParts[0]}/${dateParts[2]}`;
-    let outputString = `Hangoff ${DD_MM_YYYY}\n`;
+    const attempts = +this.gameResults.hangmanState;
+    const maxAttempts = HangmanState.Dead - 1;
+    const date = new Date();
+    let outputString = `Hangoff ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}\n`;
     outputString += `--- ${
       attempts > maxAttempts ? "X" : attempts
     }/${maxAttempts}, ${this.gameResults.time} ---\n`;

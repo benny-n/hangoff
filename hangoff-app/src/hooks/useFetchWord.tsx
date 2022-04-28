@@ -1,7 +1,11 @@
 import { useQuery } from "react-query";
 
 const fetchWord = async () => {
-  let dateSeed = new Date().toLocaleDateString();
+  const date = new Date();
+  const dateSeed =
+    date.getDate().toString() +
+    date.getMonth().toString() +
+    date.getFullYear().toString();
   (Math as any).seedrandom(dateSeed);
   return fetch("vocabulary.json", {
     headers: {
