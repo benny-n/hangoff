@@ -62,7 +62,7 @@ export class DataStore {
     this.roomState = {
       gameMode,
       roomCode: this.generateRoomCode(), //FIXME
-      host: "Benny", //FIXME
+      host: "",
       word: "",
       guesses: [],
       players: [],
