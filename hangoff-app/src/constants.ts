@@ -270,3 +270,5 @@ export const HangmanStateToString = [
   HANGMAN_STATE_LEFT_ARM,
   HANGMAN_STATE_DEAD,
 ];
+
+export const HANGOFF_WEBSITE_LINK = "hangoff.vercel.app";

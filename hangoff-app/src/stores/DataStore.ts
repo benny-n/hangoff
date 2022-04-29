@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { HangmanStateToString } from "../constants";
+import { HangmanStateToString, HANGOFF_WEBSITE_LINK } from "../constants";
 import {
   RoomState,
   GameState,
@@ -95,11 +95,15 @@ export class DataStore {
     const attempts = +this.gameResults.hangmanState;
     const maxAttempts = HangmanState.Dead - 1;
     const date = new Date();
-    let outputString = `Hangoff ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}\n`;
+    let outputString = `Hangoff ${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}\n`;
     outputString += `--- ${
       attempts > maxAttempts ? "X" : attempts
     }/${maxAttempts}, ${this.gameResults.time} ---\n`;
     outputString += HangmanStateToString[this.gameResults.hangmanState];
+    outputString += "\n";
+    outputString += `${HANGOFF_WEBSITE_LINK}`;
     return outputString;
   };
 }
