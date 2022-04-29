@@ -1,19 +1,38 @@
 import { makeAutoObservable } from "mobx";
-import { HangmanStateToString, HANGOFF_WEBSITE_LINK } from "../constants";
+import { elapsedFrom } from "../components/Time/utils";
 import {
-  RoomState,
-  GameState,
-  HangmanState,
+  ALPHABET,
+  HangmanStateToString,
+  HANGOFF_WEBSITE_LINK,
+} from "../constants";
+import {
   GameMode,
   GameResults,
+  GameState,
+  HangmanState,
+  UsedLettersMap,
+  RoomState,
+  capitalizedLetter,
 } from "../types";
 import { RootStore } from "./RootStore";
 
+const initUsedLettersMap = (): UsedLettersMap => {
+  let letters = {} as UsedLettersMap;
+  for (let i = 0; i < ALPHABET.length; i++) {
+    letters[ALPHABET[i]] = undefined;
+  }
+  return letters;
+};
 export class DataStore {
   public player: string = "GUY 1"; //FIXME
-  public isGameOver: boolean = false;
-  public roomState = {} as RoomState;
-  public gameResults = {} as GameResults;
+  public isGameOver =
+    JSON.parse(localStorage.getItem("isGameOver") || "null") || false;
+  public roomState = JSON.parse(
+    localStorage.getItem("roomState") || "null"
+  ) as RoomState;
+  public gameResults = JSON.parse(
+    localStorage.getItem("gameResults") || "null"
+  ) as GameResults;
 
   constructor(public readonly rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false });
@@ -32,11 +51,13 @@ export class DataStore {
     this.isGameOver =
       this.roomState.gameState === GameState.GameOverHostWon ||
       this.roomState.gameState === GameState.GameOverClientWon;
+    localStorage.setItem("isGameOver", JSON.stringify(this.isGameOver));
   };
 
-  updateGameState = (key: string) => {
+  updateGameState = (key: capitalizedLetter) => {
     let newRoomState = { ...this.roomState };
     let newGameResults = { ...this.gameResults };
+    newRoomState.usedLettersMap[key] = this.roomState.word.includes(key);
     if (this.roomState.word.includes(key)) {
       let indices = Array.from(this.roomState.word).reduce(
         // get all indices of the key in the word
@@ -54,31 +75,44 @@ export class DataStore {
       }
     }
     newGameResults.hangmanState = newRoomState.hangmanState;
-    this.updateGameResults(newGameResults);
-    this.updateRoom(newRoomState);
+    this.setGameResults(newGameResults);
+    this.setRoomState(newRoomState);
   };
 
-  createRoom = async (gameMode: GameMode) => {
-    this.roomState = {
-      gameMode,
-      roomCode: this.generateRoomCode(), //FIXME
-      host: "",
-      word: "",
-      guesses: [],
-      players: [],
-      gameState: GameState.WaitingForPlayers,
-      hangmanState: HangmanState.None,
-      chatMessages: [{ text: "Welcome to Hangoff!" }],
-    };
+  createRoom = (gameMode: GameMode, word: string) => {
+    const cachedRoomState = localStorage.getItem("roomState");
+    if (cachedRoomState && JSON.parse(cachedRoomState).word !== word) {
+      this.roomState = {
+        gameMode,
+        roomCode: this.generateRoomCode(), //FIXME
+        host: "",
+        word,
+        players: [],
+        guesses: [],
+        startedAt: new Date().getTime(),
+        elapsed: "",
+        usedLettersMap: initUsedLettersMap(),
+        gameState: GameState.WaitingForPlayers,
+        hangmanState: HangmanState.None,
+        chatMessages: [{ text: "Welcome to Hangoff!" }],
+      };
+    }
   };
 
-  updateRoom = (roomState: RoomState) => {
+  setRoomState = (roomState: RoomState) => {
     this.roomState = roomState;
     this.setIsGameOver();
+    if (this.isGameOver) {
+      let newRoomState = { ...this.roomState };
+      newRoomState.elapsed = elapsedFrom(newRoomState.startedAt);
+      this.roomState = newRoomState;
+    }
+    localStorage.setItem("roomState", JSON.stringify(this.roomState));
   };
 
-  updateGameResults = (gameResults: GameResults) => {
+  setGameResults = (gameResults: GameResults) => {
     this.gameResults = gameResults;
+    localStorage.setItem("gameResults", JSON.stringify(gameResults));
   };
 
   isGameWon = (): boolean => {
@@ -92,7 +126,7 @@ export class DataStore {
   };
 
   shareGameResults = (): string => {
-    const attempts = +this.gameResults.hangmanState;
+    const attempts = +this.roomState.hangmanState;
     const maxAttempts = HangmanState.Dead - 1;
     const date = new Date();
     let outputString = `Hangoff ${date.getDate()}/${
@@ -100,8 +134,8 @@ export class DataStore {
     }/${date.getFullYear()}\n`;
     outputString += `--- ${
       attempts > maxAttempts ? "X" : attempts
-    }/${maxAttempts}, ${this.gameResults.time} ---\n`;
-    outputString += HangmanStateToString[this.gameResults.hangmanState];
+    }/${maxAttempts}, ${this.roomState.elapsed} ---\n`;
+    outputString += HangmanStateToString[this.roomState.hangmanState];
     outputString += "\n";
     outputString += `${HANGOFF_WEBSITE_LINK}`;
     return outputString;

@@ -16,28 +16,25 @@ import Countdown from "../Time/Countdown";
 const MainPageComp: React.FC = () => {
   const {
     uiStore: { setPage },
-    dataStore: { createRoom, roomState, updateRoom },
+    dataStore: { createRoom, roomState, setRoomState },
   } = useStore();
   const { isDesktop, isTablet, isMobile } = useDeviceType();
   const [triggerFetchWord, setTriggerFetchWord] = React.useState(false);
   const { data: word, isSuccess, isLoading } = useFetchWord(triggerFetchWord);
 
-  const handleClickCreateRoom = (gameMode: GameMode) => {
-    createRoom(gameMode);
+  const handleClickCreateRoom = () => {
     setTriggerFetchWord(true);
   };
 
   React.useEffect(() => {
     if (isSuccess) {
-      let newRoomState = { ...roomState };
-      newRoomState.word = word;
-      updateRoom(newRoomState);
+      createRoom(GameMode.Daily, word);
       setPage(PageState.Room);
     }
     return () => {
       setTriggerFetchWord(false);
     };
-  }, [isSuccess, roomState, setPage, updateRoom, word]);
+  }, [isSuccess, roomState, word, setPage, setRoomState, createRoom]);
 
   return (
     <Box>
@@ -66,7 +63,7 @@ const MainPageComp: React.FC = () => {
             textTransform: "none",
           }}
           variant="contained"
-          onClick={() => handleClickCreateRoom(GameMode.Daily)}
+          onClick={() => handleClickCreateRoom()}
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="h4">DAILY</Typography>
@@ -79,7 +76,6 @@ const MainPageComp: React.FC = () => {
             minHeight: "70px",
           }}
           variant="contained"
-          onClick={() => handleClickCreateRoom(GameMode.Multiplayer)}
           disabled
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>

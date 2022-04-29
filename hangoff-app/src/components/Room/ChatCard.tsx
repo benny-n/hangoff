@@ -15,7 +15,7 @@ import { useStore } from "../../hooks/useStore";
 
 const ChatCardComp: React.FC = () => {
   const {
-    dataStore: { player, roomState, updateRoom },
+    dataStore: { player, roomState, setRoomState },
     uiStore: { chatFocused, setChatFocused },
   } = useStore();
 
@@ -29,7 +29,7 @@ const ChatCardComp: React.FC = () => {
     let newRoomState = { ...roomState };
     let newMessage = { player, text: message };
     newRoomState.chatMessages = newRoomState.chatMessages.concat([newMessage]);
-    updateRoom(newRoomState);
+    setRoomState(newRoomState);
     setMessage("");
   };
 
