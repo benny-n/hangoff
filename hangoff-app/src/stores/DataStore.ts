@@ -81,8 +81,12 @@ export class DataStore {
 
   createRoom = (gameMode: GameMode, word: string) => {
     const cachedRoomState = localStorage.getItem("roomState");
-    if (cachedRoomState && JSON.parse(cachedRoomState).word !== word) {
-      this.roomState = {
+    if (cachedRoomState && JSON.parse(cachedRoomState).word === word) {
+      // Restore the room data from cache
+      this.setRoomState(JSON.parse(cachedRoomState));
+    } else {
+      // No cached data found, or the word has changed
+      const newRoomState = {
         gameMode,
         roomCode: this.generateRoomCode(), //FIXME
         host: "",
@@ -96,6 +100,7 @@ export class DataStore {
         hangmanState: HangmanState.None,
         chatMessages: [{ text: "Welcome to Hangoff!" }],
       };
+      this.setRoomState(newRoomState);
     }
   };
 
