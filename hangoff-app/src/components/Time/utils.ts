@@ -11,3 +11,7 @@ export function dateTimeToString(date: number): string {
     minutes % 60 < 10 ? `0${minutes % 60}` : minutes % 60
   }:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
+
+export function elapsedFrom(date: number): string {
+  return dateTimeToString(new Date().getTime() - date);
+}

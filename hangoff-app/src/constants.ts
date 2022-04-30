@@ -1,4 +1,6 @@
-export const ALPHABET = [
+import { capitalizedLetter } from "./types";
+
+export const ALPHABET: capitalizedLetter[] = [
   "A",
   "B",
   "C",
@@ -27,7 +29,7 @@ export const ALPHABET = [
   "Z",
 ];
 
-export const QWERTY_LAYOUT_UP = [
+export const QWERTY_LAYOUT_UP: capitalizedLetter[] = [
   "Q",
   "W",
   "E",
@@ -39,7 +41,7 @@ export const QWERTY_LAYOUT_UP = [
   "O",
   "P",
 ];
-export const QWERTY_LAYOUT_MIDDLE = [
+export const QWERTY_LAYOUT_MIDDLE: capitalizedLetter[] = [
   "A",
   "S",
   "D",
@@ -50,7 +52,15 @@ export const QWERTY_LAYOUT_MIDDLE = [
   "K",
   "L",
 ];
-export const QWERTY_LAYOUT_DOWN = ["Z", "X", "C", "V", "B", "N", "M"];
+export const QWERTY_LAYOUT_DOWN: capitalizedLetter[] = [
+  "Z",
+  "X",
+  "C",
+  "V",
+  "B",
+  "N",
+  "M",
+];
 
 export const HANGMAN_STATE_NONE = `
 ⬛⬛⬛⬛⬛⬛⬛⬛

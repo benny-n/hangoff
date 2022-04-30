@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { PageState } from "../types";
 import { RootStore } from "./RootStore";
-
 export class UIStore {
   public currentPage: PageState = PageState.Main;
   public chatFocused: boolean = false;
