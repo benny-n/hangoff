@@ -1,5 +1,6 @@
 import { Box, Grow, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { useDeviceType } from "../../hooks/useDeviceType";
 
 export interface WordProps {
   word: string;
@@ -7,14 +8,15 @@ export interface WordProps {
 }
 
 const WordComp: React.FC<WordProps> = (props) => {
+  const { isMobile } = useDeviceType();
   const { word, guesses } = props;
   return (
-    <Box sx={{ display: "grid", gap: 1.5 }}>
+    <Box sx={{ display: "grid", gap: isMobile ? 0.5 : 1.5 }}>
       {Array.from(word).map((char, index) =>
         guesses.includes(index) ? (
           <Box key={index} sx={{ gridRow: 1, gridColumn: index + 1 }}>
             <Grow in={true} timeout={500}>
-              <Typography variant="h1" color="text.primary">
+              <Typography variant={isMobile ? "h2" : "h1"} color="text.primary">
                 {char}
               </Typography>
             </Grow>
@@ -22,7 +24,7 @@ const WordComp: React.FC<WordProps> = (props) => {
         ) : (
           <Box key={index + "_"} sx={{ gridRow: 1, gridColumn: index + 1 }}>
             <Grow in={true} timeout={500}>
-              <Typography variant="h1" color="text.primary">
+              <Typography variant={isMobile ? "h2" : "h1"} color="text.primary">
                 _
               </Typography>
             </Grow>

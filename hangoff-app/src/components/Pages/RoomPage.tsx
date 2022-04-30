@@ -9,8 +9,10 @@ import Hangman from "../Game/Hangman";
 import { Keyboard } from "../Game/Keyboard";
 import { Word } from "../Game/Word";
 import { RoomCard } from "../Room/RoomCard";
+import { useDeviceType } from "../../hooks/useDeviceType";
 
 const RoomPageComp: React.FC = () => {
+  const { isTablet, isMobile } = useDeviceType();
   const {
     dataStore: { roomState, isGameOver },
   } = useStore();
@@ -40,8 +42,8 @@ const RoomPageComp: React.FC = () => {
             <Box
               sx={{
                 position: "absolute",
-                marginLeft: "450px",
-                marginTop: "150px",
+                marginLeft: isMobile ? "150px" : isTablet ? "200px" : "450px",
+                marginTop: isMobile ? "-10px" : isTablet ? "25px" : "150px",
               }}
             >
               {isGameOver && <EndGameBox />}

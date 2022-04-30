@@ -19,8 +19,8 @@ export enum HangmanState {
 }
 
 export enum PageState {
-  Main,
-  Room,
+  Main = "Main",
+  Room = "Room",
 }
 
 export enum GameState {
@@ -30,8 +30,43 @@ export enum GameState {
   GameOverClientWon,
 }
 
+export type capitalizedLetter =
+  | "A"
+  | "B"
+  | "C"
+  | "D"
+  | "E"
+  | "F"
+  | "G"
+  | "H"
+  | "I"
+  | "J"
+  | "K"
+  | "L"
+  | "M"
+  | "N"
+  | "O"
+  | "P"
+  | "Q"
+  | "R"
+  | "S"
+  | "T"
+  | "U"
+  | "V"
+  | "W"
+  | "X"
+  | "Y"
+  | "Z";
+
+export type KeyRefsMap = {
+  [key in capitalizedLetter]: HTMLButtonElement | null;
+};
+
+export type UsedLettersMap = {
+  [key in capitalizedLetter]: boolean | undefined;
+};
 export interface GameResults {
-  time: string;
+  startedAt: Date;
   hangmanState: HangmanState;
 }
 export interface ChatMessage {
@@ -45,6 +80,9 @@ export interface RoomState {
   word: string;
   guesses: number[];
   players: string[];
+  startedAt: number;
+  elapsed: string;
+  usedLettersMap: UsedLettersMap;
   gameState: GameState;
   hangmanState: HangmanState;
   chatMessages: ChatMessage[];

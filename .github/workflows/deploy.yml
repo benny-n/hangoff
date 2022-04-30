@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-heroku:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_CLIENT_API_KEY}}
+          heroku_app_name: "hangoff"
+          heroku_email: "benick12@gmail.com"
+          appdir: "hangoff-app"
