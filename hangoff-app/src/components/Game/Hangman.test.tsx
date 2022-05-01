@@ -6,7 +6,7 @@ import Hangman from "./Hangman";
 test("renders hangman", () => {
   render(<Hangman {...{ state: HangmanState.Dead, isFaded: false }} />);
   const hangmanParts = screen.getAllByAltText(/hangman/i);
-  expect(hangmanParts).toHaveLength(HangmanStateToString.length - 1); // w/o none
+  expect(hangmanParts).toHaveLength(HangmanStateToString.length);
 });
 
 test("renders faded hangman", () => {
