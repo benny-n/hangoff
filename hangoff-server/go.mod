@@ -1,5 +1,6 @@
 module github.com/benny-n/hangoff/hangoff-server
 
+// +heroku goVersion go1.18
 go 1.18
 
 require github.com/gin-gonic/gin v1.7.7
