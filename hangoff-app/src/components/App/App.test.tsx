@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import { App } from "./App";
 import { StoreProvider } from "../../hooks/useStore";
 import { RootStore } from "../../stores/RootStore";
+import { App } from "./App";
 
 test("renders create room + join room buttons", () => {
   let appStore = new RootStore();

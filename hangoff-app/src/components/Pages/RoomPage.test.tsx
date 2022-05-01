@@ -1,5 +1,4 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { StoreProvider } from "../../hooks/useStore";
 import { RootStore } from "../../stores/RootStore";
 import { GameMode } from "../../types";
@@ -7,40 +6,36 @@ import { RoomPage } from "./RoomPage";
 
 test("restarts room state when word changes", async () => {
   let appStore = new RootStore();
-  let queryClient = new QueryClient();
-
+  appStore.dataStore.createRoom(GameMode.Daily, "TEST");
   act(() => {
-    appStore.dataStore.createRoom(GameMode.Daily, "test");
-  });
-
-  render(
-    <QueryClientProvider client={queryClient}>
+    render(
       <StoreProvider store={appStore}>
         <RoomPage />
       </StoreProvider>
-    </QueryClientProvider>
-  );
-  expect(appStore.dataStore.roomState.word).toBe("test");
-  setTimeout(() => {
-    fireEvent.click(screen.getByText(/T/));
-    fireEvent.click(screen.getByText(/E/));
-    fireEvent.click(screen.getByText(/S/));
+    );
   });
-  setTimeout(() => {
-    const endGameBox = screen.getByText(/You won!/i);
-    const wordTest = screen.getByText(/test/i);
-    expect(endGameBox).toBeInTheDocument();
-    expect(wordTest).toBeInTheDocument();
-  });
+  expect(appStore.dataStore.roomState.word).toBe("TEST");
+
+  fireEvent.click(screen.getByText(/T/));
+  fireEvent.click(screen.getByText(/E/));
+  fireEvent.click(screen.getByText(/S/));
+
+  expect(appStore.dataStore.roomState.guesses).toHaveLength(4); // 0, 1, 2, 3
 
   act(() => {
-    appStore.dataStore.createRoom(GameMode.Daily, "different");
+    render(<></>); // force update
   });
 
-  setTimeout(() => {
-    const endGameBox = screen.getByText(/You won!/i);
-    const hiddenWord = screen.getByText(/_{9}/i);
-    expect(endGameBox).not.toBeInTheDocument();
-    expect(hiddenWord).toBeInTheDocument();
+  let endGameBox = screen.getByText(/You won!/i);
+  expect(endGameBox).toBeInTheDocument();
+
+  const newWord = "DIFFERENT";
+  act(() => {
+    appStore.dataStore.createRoom(GameMode.Daily, newWord);
+    render(<></>); // force update
   });
+
+  expect(screen.queryByText(/You won!/i)).not.toBeInTheDocument();
+  const hiddenWord = screen.getAllByText(/_/);
+  expect(hiddenWord).toHaveLength(newWord.length);
 });

@@ -41,6 +41,7 @@ const KeyboardComp: React.FC = () => {
   });
   return (
     <Box
+      data-testid="keyboard"
       style={{
         display: "flex",
         flexDirection: "column",

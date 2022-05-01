@@ -14,7 +14,7 @@ interface KeyRowProps {
 
 const KeyRowComp: React.FC<KeyRowProps> = (props) => {
   const theme = useTheme();
-  const { isTablet, isMobile } = useDeviceType();
+  const { isDesktop, isTablet, isMobile } = useDeviceType();
   const { keys, keyRefsMap } = props;
   const {
     dataStore: {
@@ -44,7 +44,14 @@ const KeyRowComp: React.FC<KeyRowProps> = (props) => {
             fontSize: isMobile ? "8px" : isTablet ? "15px" : undefined,
             padding: isMobile ? "6px 10px" : undefined,
             boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
-            "&:hover": {
+            "&:hover": isDesktop
+              ? {
+                  backgroundColor: theme.palette.primary.main,
+                  transform: "translateY(1px)",
+                  boxShadow: `0px 3px 1px ${theme.palette.primary.dark}`,
+                }
+              : undefined,
+            "&:active": {
               backgroundColor: theme.palette.primary.main,
               transform: "translateY(1px)",
               fontSize: isMobile ? "8px" : isTablet ? "15px" : undefined,

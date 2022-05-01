@@ -146,7 +146,7 @@ const Hangman: React.FC<HangmanProps> = (props) => {
   React.useEffect(() => {
     if (state !== undefined && state !== HangmanState.None) {
       let newHangman = [];
-      newHangman = Array.from(Array(state).keys());
+      newHangman = Array.from(Array(state + 1).keys());
       setHangman(newHangman);
     } else {
       setHangman([HangmanState.None]);
