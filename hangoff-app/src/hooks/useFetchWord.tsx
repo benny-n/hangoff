@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import seedrandom from "seedrandom";
 
 const fetchWord = async () => {
   const date = new Date();
@@ -6,7 +7,7 @@ const fetchWord = async () => {
     date.getDate().toString() +
     date.getMonth().toString() +
     date.getFullYear().toString();
-  (Math as any).seedrandom(dateSeed);
+  var rng = seedrandom(dateSeed);
   return fetch("vocabulary.json", {
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +17,7 @@ const fetchWord = async () => {
     .then((res) => res.json())
     .then((json) => {
       let words = Object.keys(json);
-      return words[Math.floor(Math.random() * words.length)].toUpperCase();
+      return words[Math.floor(rng() * words.length)].toUpperCase();
     });
 };
 

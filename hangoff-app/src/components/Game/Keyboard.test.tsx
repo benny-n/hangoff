@@ -6,7 +6,7 @@ import { Keyboard } from "./Keyboard";
 
 test("renders keyboard and checks immunity to spam", () => {
   let appStore = new RootStore();
-  appStore.dataStore.createRoom(GameMode.Daily);
+  appStore.dataStore.createRoom(GameMode.Daily, "test");
   render(
     <StoreProvider store={appStore}>
       <Keyboard />
