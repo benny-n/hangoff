@@ -2,7 +2,10 @@ name: ci
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "hangoff-app/**" # Trigger this CI flow if changes were made to client subtree ONLY
 
 jobs:
   build_and_test:
