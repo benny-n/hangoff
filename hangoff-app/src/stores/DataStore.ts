@@ -2,8 +2,11 @@ import { makeAutoObservable } from "mobx";
 import { elapsedFrom } from "../components/Time/utils";
 import {
   ALPHABET,
+  ATTEMPTS_MULTIPLIER,
   HangmanStateToString,
   HANGOFF_WEBSITE_LINK,
+  MAX_ATTEMPTS,
+  NUMBERS,
 } from "../constants";
 import {
   GameMode,
@@ -130,6 +133,12 @@ export class DataStore {
     }
   };
 
+  calculateFinalScore = (): number => {
+    let [hours, minutes, seconds] = this.roomState.elapsed.split(":");
+    const secondsInt = +seconds + (+minutes * 60 + +hours * 3600);
+    return Math.ceil(((MAX_ATTEMPTS - this.roomState.hangmanState) * ATTEMPTS_MULTIPLIER) / secondsInt);
+  }
+
   shareGameResults = (): string => {
     const attempts = +this.roomState.hangmanState;
     const maxAttempts = HangmanState.Dead - 1;
@@ -140,6 +149,11 @@ export class DataStore {
     outputString += `--- ${
       attempts > maxAttempts ? "X" : attempts
     }/${maxAttempts}, ${this.roomState.elapsed} ---\n`;
+    let finalScore = Array.from(this.calculateFinalScore().toString());
+    (finalScore).forEach((num, idx) => {
+      finalScore[idx] = NUMBERS[+num];
+    })
+    outputString += `⭐${finalScore.join("")}⭐`;
     outputString += HangmanStateToString[this.roomState.hangmanState];
     outputString += "\n";
     outputString += `${HANGOFF_WEBSITE_LINK}`;

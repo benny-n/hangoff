@@ -5,6 +5,7 @@ import React from "react";
 import { useDeviceType } from "../../hooks/useDeviceType";
 import { useStore } from "../../hooks/useStore";
 import { GameMode, GameState } from "../../types";
+import { Score } from "./Score";
 
 const EndGameBoxComp: React.FC = () => {
   const { isMobile } = useDeviceType();
@@ -46,6 +47,7 @@ const EndGameBoxComp: React.FC = () => {
           <Typography variant={isMobile ? "h6" : "h5"} color="text.secondary">
             {`${isWin ? "You won!" : "Game over."}`}
           </Typography>
+          <Score />
           <Button
             sx={{
               maxWidth: "100px",
