@@ -266,6 +266,8 @@ export const HANGMAN_STATE_DEAD = `
 ⬛⬛⬛⬛⬛⬛⬛⬛
 `;
 
+export const NUMBERS = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
+
 export const HangmanStateToString = [
   HANGMAN_STATE_NONE,
   HANGMAN_STATE_GROUND,
@@ -280,5 +282,8 @@ export const HangmanStateToString = [
   HANGMAN_STATE_LEFT_ARM,
   HANGMAN_STATE_DEAD,
 ];
+
+export const MAX_ATTEMPTS = 11;
+export const ATTEMPTS_MULTIPLIER = 10000;
 
 export const HANGOFF_WEBSITE_LINK = "hangoff.vercel.app";
