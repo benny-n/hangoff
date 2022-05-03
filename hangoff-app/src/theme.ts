@@ -23,6 +23,7 @@ export const getAppTheme = (
       },
       success: {
         main: "#006618",
+        dark: "#73ff67a1", //TODO switch rows
         light: "#2e7d32a1",
       },
       text: {
