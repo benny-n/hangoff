@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: hangoff:app-dev
+    container_name: front-app
+    restart: always
+    volumes:
+      - ./hangoff-app/:/app/
+    ports:
+      - 3000:3000
+    networks:
+      - hangoff-backnet
+
+  backend:
+    image: hangoff:server-dev
+    container_name: back-app
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./hangoff-server/:/app/
+    networks:
+      - hangoff-backnet
+
+networks:
+  hangoff-backnet:
+    name: hangoff-backnet
