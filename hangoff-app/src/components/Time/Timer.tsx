@@ -38,7 +38,7 @@ const TimerComp: React.FC = () => {
     >
       <TimerIcon color="primary" />
       <Typography variant="h5" color="primary">
-        {now}
+        {isGameOver ? elapsed : now}
       </Typography>
     </Box>
   );

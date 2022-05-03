@@ -109,7 +109,7 @@ export class DataStore {
     this.setIsGameOver();
     if (this.isGameOver) {
       let newRoomState = { ...this.roomState };
-      newRoomState.elapsed = elapsedFrom(newRoomState.startedAt);
+      newRoomState.elapsed = newRoomState.elapsed === "" ? elapsedFrom(newRoomState.startedAt): newRoomState.elapsed;
       this.roomState = newRoomState;
     }
     localStorage.setItem("roomState", JSON.stringify(this.roomState));
