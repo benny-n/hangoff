@@ -8,12 +8,12 @@ RUN chown -R $USER:$USER /app
 
 USER $USER
 # install app dependencies
-COPY --chown=$USER:$USER ./hangoff-app/package.json ./
-COPY --chown=$USER:$USER ./hangoff-app/package-lock.json ./
+COPY --chown=$USER:$USER package.json ./
+COPY --chown=$USER:$USER package-lock.json ./
 RUN npm install --silent
 
 # add app
-COPY --chown=$USER:$USER ./hangoff-app/ ./
+COPY --chown=$USER:$USER . .
 
 # start app
 CMD ["npm", "start"]

@@ -6,12 +6,12 @@ ARG serverPort
 ENV SERVER_PORT=${serverPort}
 WORKDIR /app
 
-COPY hangoff-server/go.mod ./
-COPY hangoff-server/go.sum ./
+COPY go.mod ./
+COPY go.sum ./
 
 RUN go mod download
 
-COPY hangoff-server/ ./
+COPY . .
 # COPY hangoff-server/word ./
 
 RUN go build -o /docker-hangoff-server

@@ -5,6 +5,8 @@ services:
     image: hangoff:app
     container_name: front-app
     restart: always
+    env_file:
+      - .env
     ports:
       - 80:80
     networks:
@@ -14,6 +16,8 @@ services:
     image: hangoff:server
     container_name: back-app
     restart: always
+    env_file:
+      - .env
     networks:
       - hangoff-backnet
 
