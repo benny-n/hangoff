@@ -24,6 +24,17 @@ func scanWords(w string, s []string, c chan bool) {
 	c <- false
 }
 
+// @BasePath /api/v2
+
+// PingExample godoc
+// @Summary word
+// @Schemes
+// @Description ask if a word is valid
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} is a valid word!
+// @Router /v2/word [get]
 func WordGET(c *gin.Context) {
 	word := c.Param("word")
 	resp, err := http.Get(os.Getenv("VOCABULARY_URI"))

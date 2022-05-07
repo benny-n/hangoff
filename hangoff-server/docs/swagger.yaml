@@ -1,34 +1,31 @@
-basePath: /
-host: localhost:5545
+basePath: /v2
+host: petstore.swagger.io
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server server.
+  description: This is a sample server Petstore server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Gin Swagger Example API
+  title: Swagger Example API
   version: "1.0"
 paths:
-  /:
+  /v2/word:
     get:
       consumes:
-      - '*/*'
-      description: get the status of server.
+      - application/json
+      description: ask if a word is valid
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
-      summary: Show the status of server.
+            type: string
+      summary: word
       tags:
-      - root
-schemes:
-- http
+      - example
 swagger: "2.0"

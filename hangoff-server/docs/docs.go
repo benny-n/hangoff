@@ -25,25 +25,24 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
+        "/v2/word": {
             "get": {
-                "description": "get the status of server.",
+                "description": "ask if a word is valid",
                 "consumes": [
-                    "*/*"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "root"
+                    "example"
                 ],
-                "summary": "Show the status of server.",
+                "summary": "word",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "string"
                         }
                     }
                 }
@@ -55,11 +54,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:5545",
-	BasePath:         "/",
-	Schemes:          []string{"http"},
-	Title:            "Gin Swagger Example API",
-	Description:      "This is a sample server server.",
+	Host:             "petstore.swagger.io",
+	BasePath:         "/v2",
+	Schemes:          []string{},
+	Title:            "Swagger Example API",
+	Description:      "This is a sample server Petstore server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

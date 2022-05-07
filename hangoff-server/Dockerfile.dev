@@ -1,0 +1,22 @@
+# syntax=docker/dockerfile:1
+
+##
+## Build
+##
+FROM golang:1.16-buster AS build
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY *.go ./
+RUN go get github.com/gin-gonic/gin/binding@v1.7.7
+RUN echo $(ls -l /app)
+
+RUN go build -o hangoff-backend
+
+EXPOSE 5545
+
+ENTRYPOINT [ "./hangoff-backend" ]
