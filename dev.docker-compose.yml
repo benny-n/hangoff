@@ -5,10 +5,8 @@ services:
     image: hangoff:app-dev
     container_name: front-app
     restart: always
-    env_file:
-      - .dev.env
-    # volumes:
-    #   - ./hangoff-app/:/app/
+    volumes:
+      - ./hangoff-app/:/app/
     ports:
       - 3000:3000
     networks:
@@ -19,11 +17,11 @@ services:
     container_name: back-app
     restart: always
     env_file:
-      - .dev.env
+      - ./hangoff-server/.dev.env
     ports:
       - 8080:8080
-    # volumes:
-    #   - ./hangoff-server/:/app/
+    volumes:
+      - ./hangoff-server/:/app/
     networks:
       - hangoff-backnet
 
