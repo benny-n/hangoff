@@ -284,6 +284,6 @@ export const HangmanStateToString = [
 ];
 
 export const MAX_ATTEMPTS = 11;
-export const ATTEMPTS_MULTIPLIER = 10000;
+export const ATTEMPTS_MULTIPLIER = 1000;
 
 export const HANGOFF_WEBSITE_LINK = "hangoff.vercel.app";

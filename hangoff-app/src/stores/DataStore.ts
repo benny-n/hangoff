@@ -112,7 +112,10 @@ export class DataStore {
     this.setIsGameOver();
     if (this.isGameOver) {
       let newRoomState = { ...this.roomState };
-      newRoomState.elapsed = newRoomState.elapsed === "" ? elapsedFrom(newRoomState.startedAt): newRoomState.elapsed;
+      newRoomState.elapsed =
+        newRoomState.elapsed === ""
+          ? elapsedFrom(newRoomState.startedAt)
+          : newRoomState.elapsed;
       this.roomState = newRoomState;
     }
     localStorage.setItem("roomState", JSON.stringify(this.roomState));
@@ -136,8 +139,11 @@ export class DataStore {
   calculateFinalScore = (): number => {
     let [hours, minutes, seconds] = this.roomState.elapsed.split(":");
     const secondsInt = +seconds + (+minutes * 60 + +hours * 3600);
-    return Math.ceil(((MAX_ATTEMPTS - this.roomState.hangmanState) * ATTEMPTS_MULTIPLIER) / secondsInt);
-  }
+    return Math.ceil(
+      ((MAX_ATTEMPTS - this.roomState.hangmanState) * ATTEMPTS_MULTIPLIER) /
+        Math.log10(secondsInt)
+    );
+  };
 
   shareGameResults = (): string => {
     const attempts = +this.roomState.hangmanState;
@@ -150,9 +156,9 @@ export class DataStore {
       attempts > maxAttempts ? "X" : attempts
     }/${maxAttempts}, ${this.roomState.elapsed} ---\n`;
     let finalScore = Array.from(this.calculateFinalScore().toString());
-    (finalScore).forEach((num, idx) => {
+    finalScore.forEach((num, idx) => {
       finalScore[idx] = NUMBERS[+num];
-    })
+    });
     outputString += `⭐${finalScore.join("")}⭐`;
     outputString += HangmanStateToString[this.roomState.hangmanState];
     outputString += "\n";
