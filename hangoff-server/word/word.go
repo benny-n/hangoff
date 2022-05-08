@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const MAX_NUMBER_OF_WORKERS = 5
+const MAX_NUMBER_OF_WORKERS = 10
 
 func scanWords(w string, s []string, c chan bool) {
 	for _, wordField := range s {
@@ -33,8 +33,9 @@ func scanWords(w string, s []string, c chan bool) {
 // @Tags example
 // @Accept json
 // @Produce json
-// @Success 200 {string} is a valid word!
-// @Router /v2/word [get]
+// @Success 200 {word} is a valid word!
+// @Router /word/{word} [get]
+// @Param word path string true "the word is valid"
 func WordGET(c *gin.Context) {
 	word := c.Param("word")
 	resp, err := http.Get(os.Getenv("VOCABULARY_URI"))
