@@ -1,9 +1,9 @@
-ARG serverPort=8080
+ARG port=8080
 
 FROM golang:1.18-alpine
 
-ARG serverPort
-ENV SERVER_PORT=${serverPort}
+ARG port
+ENV PORT=${serverPort}
 WORKDIR /app
 
 COPY go.mod ./

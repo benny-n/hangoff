@@ -1,9 +1,9 @@
-ARG serverPort=8080
+ARG port=8080
 
 FROM golang:1.18-alpine as build
 
-ARG serverPort
-ENV SERVER_PORT=${serverPort}
+ARG port
+ENV SERVER_PORTPORT=${port}
 WORKDIR /app
 
 COPY go.mod ./
@@ -18,14 +18,14 @@ RUN go build -o /docker-hangoff-server
 
 FROM alpine:3.9
 
-ARG serverPort
-ENV SERVER_PORT=${serverPort}
+ARG port
+ENV PORT=${port}
 ENV USER=nobody
 USER $USER:$USER
 WORKDIR /
 
 COPY --from=build --chown=$USER:$USER /docker-hangoff-server/ /docker-hangoff-server
 
-EXPOSE $SERVER_PORT
+EXPOSE $PORT
 
 ENTRYPOINT [ "/docker-hangoff-server" ]

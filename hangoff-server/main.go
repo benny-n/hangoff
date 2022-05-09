@@ -14,6 +14,6 @@ func main() {
 	r := gin.Default()
 	r.SetTrustedProxies(nil)
 	r.GET("/word/:word", word.WordGET)
-	port := os.Getenv("SERVER_PORT")
+	port := os.Getenv("PORT")
 	r.Run(fmt.Sprintf("0.0.0.0:%v", port))
 }

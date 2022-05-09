@@ -59,7 +59,7 @@ $ docker-compose up -d
 
 | Variable | Default Value |
 | ------ | ------ |
-| SERVER_PORT | 5545 |
+| PORT | 5545 |
 | VOCABULARY_URI |  |
 
 **Please Make Sure to run DB container as well and also the netwrok is the same docker network**
