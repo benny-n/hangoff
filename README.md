@@ -46,7 +46,7 @@ $ docker build -t hangoff:app -f hangoff-app/Dockerfile ./hangoff-app
 Build the server image using the following command
 
 ```bash
-$ docker build -t hangoff:server -f hangoff-serverDockerfile ./hangoff-server
+$ docker build -t hangoff:server -f hangoff-server/Dockerfile ./hangoff-server
 ```
 
 Run production containers using the command shown below.
