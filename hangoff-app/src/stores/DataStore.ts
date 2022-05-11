@@ -2,11 +2,12 @@ import { makeAutoObservable } from "mobx";
 import { elapsedFrom } from "../components/Time/utils";
 import {
   ALPHABET,
-  ATTEMPTS_MULTIPLIER,
+  SCALE_MULTIPLIER,
   HangmanStateToString,
   HANGOFF_WEBSITE_LINK,
   MAX_ATTEMPTS,
   NUMBERS,
+  TIME_MULTIPLIER,
 } from "../constants";
 import {
   GameMode,
@@ -140,8 +141,10 @@ export class DataStore {
     let [hours, minutes, seconds] = this.roomState.elapsed.split(":");
     const secondsInt = +seconds + (+minutes * 60 + +hours * 3600);
     return Math.ceil(
-      ((MAX_ATTEMPTS - this.roomState.hangmanState) * ATTEMPTS_MULTIPLIER) /
-        Math.log10(secondsInt)
+      SCALE_MULTIPLIER *
+        (MAX_ATTEMPTS -
+          this.roomState.hangmanState +
+          1 / Math.exp(TIME_MULTIPLIER * secondsInt))
     );
   };
 
